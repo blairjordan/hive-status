@@ -1,0 +1,171 @@
+import "source-map-support/register"
+import { commands, window, workspace, ExtensionContext } from "vscode"
+import { getConfig } from "./config"
+import { editor } from "./editor"
+import { StatusController } from "./controller"
+import { CONFIG_KEYS } from "./constants"
+
+let controller: StatusController
+
+export const registerListeners = (ctx: ExtensionContext) => {
+  console.log("Registering listeners")
+  const onConfigurationChanged = workspace.onDidChangeConfiguration(async () => {
+    console.log("Configuration changed")
+    const config = getConfig()
+    const isEnabled = config.get(CONFIG_KEYS.Enabled)
+
+    editor.updateStatusBarFromConfig()
+
+    if (isEnabled) {
+      await controller.enable()
+    } else {
+      await controller.disable()
+    }
+  })
+
+  ctx.subscriptions.push(onConfigurationChanged)
+}
+
+export const registerCommands = (ctx: ExtensionContext) => {
+  console.log("Registering commands")
+  const config = getConfig()
+
+  const enable = async (update = true) => {
+    console.log("Enabling extension")
+    if (update) {
+      try {
+        await config.update(CONFIG_KEYS.Enabled, true)
+      } catch (error) {
+        console.error("Failed to update configuration:", error)
+      }
+    }
+
+    await controller.enable()
+  }
+
+  const disable = async (update = true) => {
+    console.log("Disabling extension")
+    if (update) {
+      try {
+        await config.update(CONFIG_KEYS.Enabled, false)
+      } catch (error) {
+        console.error("Failed to update configuration:", error)
+      }
+    }
+
+    await controller.disable()
+  }
+
+  const togglePrivacyMode = async (activate: boolean) => {
+    console.log(`Toggling privacy mode to ${activate}`)
+    try {
+      await config.update(CONFIG_KEYS.App.PrivacyMode, activate)
+    } catch (error) {
+      console.error("Failed to update privacy mode:", error)
+    }
+
+    await controller.sendActivity()
+  }
+
+  const enableCommand = commands.registerCommand("vshive.enable", async () => {
+    console.log("Command: vshive.enable")
+    await disable(false)
+    await enable(false)
+
+    console.log("Enabled Virtual Office Status.")
+
+    if (!config.get(CONFIG_KEYS.Behaviour.SuppressNotifications)) {
+      await window.showInformationMessage("Enabled Virtual Office Status")
+    }
+  })
+
+  const disableCommand = commands.registerCommand("vshive.disable", async () => {
+    console.log("Command: vshive.disable")
+    console.log("Disabled Virtual Office Status")
+
+    await disable(false)
+
+    if (!config.get(CONFIG_KEYS.Behaviour.SuppressNotifications)) {
+      await window.showInformationMessage("Disabled Virtual Office Status")
+    }
+  })
+
+  const enableWorkspaceCommand = commands.registerCommand("vshive.workspace.enable", async () => {
+    console.log("Command: vshive.workspace.enable")
+    console.log("Enabled Virtual Office Status")
+
+    await disable()
+    await enable()
+
+    if (!config.get(CONFIG_KEYS.Behaviour.SuppressNotifications)) {
+      await window.showInformationMessage("Enabled Virtual Office Status for this workspace")
+    }
+  })
+
+  const disableWorkspaceCommand = commands.registerCommand("vshive.workspace.disable", async () => {
+    console.log("Command: vshive.workspace.disable")
+    console.log("Disabled Virtual Office Status")
+
+    await disable()
+
+    if (!config.get(CONFIG_KEYS.Behaviour.SuppressNotifications)) {
+      await window.showInformationMessage("Disabled Virtual Office Status for this workspace")
+    }
+  })
+
+  const enablePrivacyModeCommand = commands.registerCommand("vshive.enablePrivacyMode", async () => {
+    console.log("Command: vshive.enablePrivacyMode")
+    console.log("Enabled Privacy Mode")
+
+    await togglePrivacyMode(true)
+
+    if (!config.get(CONFIG_KEYS.Behaviour.SuppressNotifications)) {
+      await window.showInformationMessage("Enabled Privacy Mode.")
+    }
+  })
+
+  const disablePrivacyModeCommand = commands.registerCommand("vshive.disablePrivacyMode", async () => {
+    console.log("Command: vshive.disablePrivacyMode")
+    console.log("Disabled Privacy Mode")
+
+    await togglePrivacyMode(false)
+
+    if (!config.get(CONFIG_KEYS.Behaviour.SuppressNotifications)) {
+      await window.showInformationMessage("Disabled Privacy Mode.")
+    }
+  })
+
+  ctx.subscriptions.push(
+    enableCommand,
+    disableCommand,
+    enableWorkspaceCommand,
+    disableWorkspaceCommand,
+    enablePrivacyModeCommand,
+    disablePrivacyModeCommand
+  )
+
+  console.log("Registered Virtual Office Status commands")
+}
+
+export async function activate(ctx: ExtensionContext) {
+  console.log("Virtual Office Status for VS Code activated.")
+
+  const endpoint = "http://localhost:8090/listener"
+  const debugMode = getConfig().get(CONFIG_KEYS.Behaviour.Debug)
+  controller = new StatusController(endpoint, debugMode)
+
+  console.log("StatusController created")
+
+  registerCommands(ctx)
+  registerListeners(ctx)
+
+  if (getConfig().get(CONFIG_KEYS.Enabled)) {
+    console.log("Extension is enabled in configuration")
+    await controller.enable()
+  }
+}
+
+export async function deactivate() {
+  console.log("Virtual Office Status for VS Code deactivated.")
+  await controller.destroy()
+}

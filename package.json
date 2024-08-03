@@ -1,0 +1,430 @@
+{
+  "name": "vshive",
+  "displayName": "Virtual Office Status",
+  "version": "1.0.0",
+  "description": "A customizable status extension for a virtual office environment",
+  "main": "dist/extension.js",
+  "repository": "github:blairjordan/vshive",
+  "publisher": "blairjordan",
+  "license": "MIT",
+  "private": true,
+  "icon": "assets/icon.png",
+  "bugs": {
+    "url": "https://github.com/blairjordan/vshive/issues"
+  },
+  "homepage": "https://github.com/blairjordan/vshive#readme",
+  "keywords": [
+    "status",
+    "virtual office",
+    "vshive"
+  ],
+  "categories": [
+    "Visualization",
+    "Other"
+  ],
+  "extensionKind": [
+    "ui",
+    "workspace"
+  ],
+  "activationEvents": [
+    "onStartupFinished"
+  ],
+  "scripts": {
+    "vscode:prepublish": "pnpm tsup",
+    "package": "pnpm vsce package --no-yarn",
+    "watch": "pnpm tsup --watch",
+    "lint": "pnpm prettier . --check",
+    "lint:fix": "pnpm prettier . --write"
+  },
+  "devDependencies": {
+    "@types/git-url-parse": "^9.0.3",
+    "@types/node": "~16.18.95",
+    "@types/vscode": "1.57.0",
+    "@vscode/vsce": "^2.24.0",
+    "filesize": "^10.1.1",
+    "git-url-parse": "^14.0.0",
+    "source-map-support": "^0.5.21",
+    "tsup": "^8.0.2",
+    "typescript": "^5.4.4"
+  },
+  "engines": {
+    "vscode": "^1.57.0"
+  },
+  "contributes": {
+    "commands": [
+      {
+        "command": "vshive.enable",
+        "title": "Enable Virtual Office Status",
+        "category": "VSHive"
+      },
+      {
+        "command": "vshive.disable",
+        "title": "Disable Virtual Office Status",
+        "category": "VSHive"
+      },
+      {
+        "command": "vshive.workspace.enable",
+        "title": "Enable Virtual Office Status in the current workspace",
+        "category": "VSHive"
+      },
+      {
+        "command": "vshive.workspace.disable",
+        "title": "Disable Virtual Office Status in the current workspace",
+        "category": "VSHive"
+      },
+      {
+        "command": "vshive.enablePrivacyMode",
+        "title": "Enable Privacy Mode",
+        "category": "VSHive"
+      },
+      {
+        "command": "vshive.disablePrivacyMode",
+        "title": "Disable Privacy Mode",
+        "category": "VSHive"
+      }
+    ],
+    "configuration": [
+      {
+        "title": "VSHive",
+        "properties": {
+          "vshive.app.name": {
+            "type": "string",
+            "enum": [
+              "Code",
+              "Visual Studio Code",
+              "VSCodium",
+              "Custom"
+            ],
+            "default": "Code",
+            "description": "Choose the name you want the application to use.\nChoosing \"Custom\" will make it so it use the \"rpc.id\" as application id",
+            "order": 2
+          },
+          "vshive.app.id": {
+            "type": "string",
+            "default": "your_default_app_id",
+            "description": "Application id that will be used when `appName` is \"Custom\" or when `appName` is invalid",
+            "order": 3
+          },
+          "vshive.app.privacyMode.enable": {
+            "type": "boolean",
+            "default": false,
+            "description": "Should we hide the repository, the file name and the workspace name?",
+            "order": 4
+          },
+          "vshive.app.whitelistEnabled": {
+            "type": "boolean",
+            "default": false,
+            "description": "Is the whitelist enabled?",
+            "order": 5
+          },
+          "vshive.app.whitelistIsBlacklist": {
+            "type": "boolean",
+            "default": false,
+            "description": "Switches the whitelist to a blacklist.",
+            "order": 6
+          },
+          "vshive.app.whitelist": {
+            "type": "array",
+            "default": [],
+            "uniqueItems": true,
+            "items": {
+              "type": "string"
+            },
+            "description": "List of user ids that will be able to use the extension.",
+            "order": 7
+          }
+        }
+      },
+      {
+        "title": "Status",
+        "type": "object",
+        "properties": {
+          "vshive.status.showElapsedTime": {
+            "type": "boolean",
+            "default": true,
+            "description": "Should elapsed time be shown?"
+          },
+          "vshive.status.resetElapsedTimePerFile": {
+            "type": "boolean",
+            "default": false,
+            "description": "Should we reset the elapsed time after switching file?"
+          },
+          "vshive.status.problems.enabled": {
+            "type": "boolean",
+            "default": true,
+            "description": "Should we count the problems?"
+          },
+          "vshive.status.problems.text": {
+            "type": "string",
+            "default": "- {problems_count} problems found",
+            "description": "This text will be shown when there is a problem."
+          },
+          "vshive.status.problems.countedSeverities": {
+            "type": "array",
+            "uniqueItems": true,
+            "items": {
+              "type": "string",
+              "enum": [
+                "error",
+                "warning",
+                "info",
+                "hint"
+              ]
+            },
+            "default": [
+              "error",
+              "warning"
+            ],
+            "description": "List of problem levels to count for `problems_count`."
+          },
+          "vshive.status.idle.enabled": {
+            "type": "boolean",
+            "default": true,
+            "description": "Should we enable the idle status?"
+          },
+          "vshive.status.idle.check": {
+            "type": "boolean",
+            "default": true,
+            "description": "Should we check when you are idling?"
+          },
+          "vshive.status.idle.disconnectOnIdle": {
+            "type": "boolean",
+            "default": false,
+            "description": "Should going idle disconnect you from the service?"
+          },
+          "vshive.status.idle.resetElapsedTime": {
+            "type": "boolean",
+            "default": false,
+            "description": "Should going idle reset the elapsed time?"
+          },
+          "vshive.status.idle.timeout": {
+            "type": "number",
+            "default": 300,
+            "description": "Time in seconds before the user is considered idle."
+          }
+        }
+      },
+      {
+        "title": "Ignore",
+        "type": "object",
+        "properties": {
+          "vshive.ignore.workspaces": {
+            "type": "array",
+            "uniqueItems": true,
+            "items": {
+              "type": "string"
+            },
+            "default": [],
+            "description": "A list of workspace (name / path) to ignore."
+          },
+          "vshive.ignore.workspacesText": {
+            "type": [
+              "string",
+              "object"
+            ],
+            "description": "The text / object to show in the status when current workspace is ignored, when using the object, key is workspace name and value is the text."
+          },
+          "vshive.ignore.repositories": {
+            "type": "array",
+            "uniqueItems": true,
+            "items": {
+              "type": "string"
+            },
+            "default": [],
+            "description": "A list of repository names to ignore."
+          },
+          "vshive.ignore.organizations": {
+            "type": "array",
+            "uniqueItems": true,
+            "items": {
+              "type": "string"
+            },
+            "default": [],
+            "description": "A list of git organizations to ignore."
+          },
+          "vshive.ignore.gitHosts": {
+            "type": "array",
+            "uniqueItems": true,
+            "items": {
+              "type": "string"
+            },
+            "default": [],
+            "description": "A list of git hosts to ignore."
+          }
+        }
+      },
+      {
+        "title": "Details",
+        "type": "object",
+        "properties": {
+          "vshive.status.details.enabled": {
+            "type": "boolean",
+            "default": true,
+            "description": "Should details be shown?"
+          },
+          "vshive.status.details.idle.enabled": {
+            "type": "boolean",
+            "default": true,
+            "description": "Should details be shown when idling?"
+          },
+          "vshive.status.details.text.idle": {
+            "type": "string",
+            "default": "Idling",
+            "description": "The text to show when idling."
+          },
+          "vshive.status.details.text.editing": {
+            "type": "string",
+            "default": "In {workspace} {problems}",
+            "description": "The text to show when editing a file."
+          },
+          "vshive.status.details.text.debugging": {
+            "type": "string",
+            "default": "Debugging {file_name}{file_extension}",
+            "description": "The text to show when debugging."
+          },
+          "vshive.status.details.text.viewing": {
+            "type": "string",
+            "default": "In {workspace} {problems}",
+            "description": "The text to show when viewing a file."
+          },
+          "vshive.status.details.text.notInFile": {
+            "type": "string",
+            "default": "Not in a file!",
+            "description": "The text to show when you are not in a file."
+          },
+          "vshive.status.details.text.noWorkSpaceText": {
+            "type": "string",
+            "default": "no workspace",
+            "description": "The text to show when you are not in a workspace and there is no workspace text."
+          }
+        }
+      },
+      {
+        "title": "State",
+        "type": "object",
+        "properties": {
+          "vshive.status.state.enabled": {
+            "type": "boolean",
+            "default": true,
+            "description": "Should state be shown?"
+          },
+          "vshive.status.state.debugging.enabled": {
+            "type": "boolean",
+            "default": true,
+            "description": "Should state be shown when debugging? If disabled, it will be shown when editing/viewing a file."
+          },
+          "vshive.status.state.idle.enabled": {
+            "type": "boolean",
+            "default": true,
+            "description": "Should state be shown when idling?"
+          },
+          "vshive.status.state.text.idle": {
+            "type": "string",
+            "default": "",
+            "description": "The text to show when idling."
+          },
+          "vshive.status.state.text.editing": {
+            "type": "string",
+            "default": "Working on {file_name}{file_extension}:{current_line}:{current_column}",
+            "description": "The text to show when editing a file."
+          },
+          "vshive.status.state.text.debugging": {
+            "type": "string",
+            "default": "Debugging: {workspace}",
+            "description": "The text to show when debugging."
+          },
+          "vshive.status.state.text.viewing": {
+            "type": "string",
+            "default": "Viewing {file_name}{file_extension}",
+            "description": "The text to show when viewing a file."
+          },
+          "vshive.status.state.text.notInFile": {
+            "type": "string",
+            "default": "",
+            "description": "The text to show when you are not in a file."
+          },
+          "vshive.status.state.text.noWorkspaceFound": {
+            "type": "string",
+            "default": "No workspace.",
+            "description": "The text to show when no workspace is found."
+          }
+        }
+      },
+      {
+        "title": "Misc",
+        "type": "object",
+        "properties": {
+          "vshive.file.size.round": {
+            "type": "number",
+            "default": 2,
+            "description": "The number of decimal places to round the file size to."
+          },
+          "vshive.file.size.spacer": {
+            "type": "string",
+            "default": " ",
+            "description": "Spacer between the number and the unit."
+          },
+          "vshive.behaviour.additionalFileMapping": {
+            "type": "object",
+            "default": {},
+            "additionalProperties": {
+              "type": "string"
+            },
+            "description": "Additional regex to check for language, key is regex and value is the language."
+          },
+          "vshive.behaviour.suppressNotifications": {
+            "type": "boolean",
+            "default": false,
+            "description": "Suppresses all notifications from the extension."
+          },
+          "vshive.behaviour.prioritizeLanguagesOverExtensions": {
+            "type": "boolean",
+            "default": false,
+            "description": "Prioritize language defined by editor over file extension when determining the language for the file."
+          },
+          "vshive.behaviour.statusBarAlignment": {
+            "type": "string",
+            "enum": [
+              "Right",
+              "Left"
+            ],
+            "default": "Left",
+            "description": "Changing the alignment of the status bar."
+          },
+          "vshive.file.size.humanReadable": {
+            "type": "boolean",
+            "default": true,
+            "description": "If true, the file size will be displayed in a human readable format (e.g. 1.2 MB). If false, the file size will be displayed in bytes."
+          },
+          "vshive.file.size.standard": {
+            "type": "string",
+            "enum": [
+              "iec",
+              "jedec"
+            ],
+            "default": "iec",
+            "description": "The unit standard to use when displaying the file size."
+          }
+        }
+      },
+      {
+        "title": "Advanced",
+        "type": "object",
+        "properties": {
+          "vshive.behaviour.debug": {
+            "type": "boolean",
+            "default": false,
+            "description": "Enable debug mode"
+          }
+        }
+      }
+    ]
+  },
+  "capabilities": {
+    "virtualWorkspaces": {
+      "supported": true,
+      "description": "Can run in a virtual workspace environment"
+    }
+  },
+  "packageManager": "pnpm@8.15.4"
+}
