@@ -76,7 +76,7 @@ export const activity = async (previous: any = {}, isViewing = false, isIdling =
   if (config.get(CONFIG_KEYS.Status.ShowElapsedTime)) {
     presence.startTimestamp = config.get(CONFIG_KEYS.Status.ResetElapsedTimePerFile)
       ? Date.now()
-      : previous.startTimestamp ?? Date.now()
+      : (previous.startTimestamp ?? Date.now())
   } else {
     delete presence.startTimestamp
   }
@@ -165,7 +165,7 @@ export const activity = async (previous: any = {}, isViewing = false, isIdling =
         : undefined) ?? workspaceExcludedText
   } else {
     const text = await replaceAllText(ignoreWorkspacesText)
-    workspaceExcludedText = text !== "" ? text : undefined ?? workspaceExcludedText
+    workspaceExcludedText = text !== "" ? text : (undefined ?? workspaceExcludedText)
   }
 
   let details = isWorkspaceExcluded ? workspaceExcludedText : undefined
@@ -272,7 +272,7 @@ export const replaceGitInfo = (text: string, excluded = false): string => {
   const replaceMap = new Map([
     ["{git_owner}", (!excluded ? dataClass.gitRemoteUrl?.owner : undefined) ?? FAKE_EMPTY],
     ["{git_provider}", (!excluded ? dataClass.gitRemoteUrl?.source : undefined) ?? FAKE_EMPTY],
-    ["{git_repo}", (!excluded ? dataClass.gitRemoteUrl?.name ?? dataClass.gitRepoName : undefined) ?? FAKE_EMPTY],
+    ["{git_repo}", (!excluded ? (dataClass.gitRemoteUrl?.name ?? dataClass.gitRepoName) : undefined) ?? FAKE_EMPTY],
     ["{git_branch}", (!excluded ? dataClass.gitBranchName : undefined) ?? FAKE_EMPTY],
     [
       "{git_url}",

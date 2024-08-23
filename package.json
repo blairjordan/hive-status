@@ -43,6 +43,7 @@
     "@vscode/vsce": "^2.24.0",
     "filesize": "^10.1.1",
     "git-url-parse": "^14.0.0",
+    "prettier": "^3.3.3",
     "source-map-support": "^0.5.21",
     "tsup": "^8.0.2",
     "typescript": "^5.4.4"
@@ -110,6 +111,16 @@
             "default": false,
             "description": "Should we hide the repository, the file name and the workspace name?",
             "order": 4
+          },
+          "vshive.app.playerSecret": {
+            "type": "string",
+            "default": "",
+            "description": "The secret key for player status updates."
+          },
+          "vshive.app.apiEndpoint": {
+            "type": "string",
+            "default": "https://api.devmode.digital/graphql",
+            "description": "The endpoint for the API."
           },
           "vshive.app.whitelistEnabled": {
             "type": "boolean",

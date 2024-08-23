@@ -14,6 +14,8 @@ export const CONFIG_KEYS = {
     Id: "app.id" as const,
     Name: "app.name" as const,
     PrivacyMode: "app.privacyMode.enable" as const,
+    PlayerSecret: "app.playerSecret" as const,
+    ApiEndpoint: "app.apiEndpoint" as const,
     WhitelistEnabled: "app.whitelistEnabled" as const,
     whitelistIsBlacklist: "app.whitelistIsBlacklist" as const,
     Whitelist: "app.whitelist" as const

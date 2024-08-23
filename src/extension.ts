@@ -9,9 +9,15 @@ let controller: StatusController
 
 export const registerListeners = (ctx: ExtensionContext) => {
   console.log("Registering listeners")
-  const onConfigurationChanged = workspace.onDidChangeConfiguration(async () => {
+  const onConfigurationChanged = workspace.onDidChangeConfiguration(async (e) => {
     console.log("Configuration changed")
     const config = getConfig()
+
+    if (e.affectsConfiguration(CONFIG_KEYS.App.ApiEndpoint)) {
+      const newEndpoint = config.get(CONFIG_KEYS.App.ApiEndpoint) as string
+      controller.updateEndpoint(newEndpoint)
+    }
+
     const isEnabled = config.get(CONFIG_KEYS.Enabled)
 
     editor.updateStatusBarFromConfig()
@@ -135,13 +141,22 @@ export const registerCommands = (ctx: ExtensionContext) => {
     }
   })
 
+  const setPlayerSecretCommand = commands.registerCommand("vshive.setPlayerSecret", async () => {
+    const playerSecret = await window.showInputBox({ prompt: "Enter your player secret key" })
+    if (playerSecret) {
+      await getConfig().update(CONFIG_KEYS.App.PlayerSecret, playerSecret)
+      window.showInformationMessage("Player secret key updated!")
+    }
+  })
+
   ctx.subscriptions.push(
     enableCommand,
     disableCommand,
     enableWorkspaceCommand,
     disableWorkspaceCommand,
     enablePrivacyModeCommand,
-    disablePrivacyModeCommand
+    disablePrivacyModeCommand,
+    setPlayerSecretCommand
   )
 
   console.log("Registered Virtual Office Status commands")
@@ -150,7 +165,7 @@ export const registerCommands = (ctx: ExtensionContext) => {
 export async function activate(ctx: ExtensionContext) {
   console.log("Virtual Office Status for VS Code activated.")
 
-  const endpoint = "http://localhost:8090/listener"
+  const endpoint = (getConfig().get(CONFIG_KEYS.App.ApiEndpoint) as string) || "https://api.devmode.digital"
   const debugMode = getConfig().get(CONFIG_KEYS.Behaviour.Debug)
   controller = new StatusController(endpoint, debugMode)
 

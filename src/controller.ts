@@ -6,7 +6,7 @@ import { getConfig } from "./config"
 import { dataClass } from "./data"
 import { Disposable, WindowState, debug, languages, window, workspace } from "vscode"
 import { editor } from "./editor"
-import * as http from "http"
+import * as https from "https"
 
 export class StatusController {
   listeners: Disposable[] = []
@@ -36,6 +36,11 @@ export class StatusController {
     editor.statusBarItem.tooltip = "Click to disconnect from Status Service"
     editor.statusBarItem.command = "vshive.disconnect"
     editor.statusBarItem.show()
+  }
+
+  public updateEndpoint(newEndpoint: string) {
+    this.endpoint = newEndpoint
+    console.log(`API endpoint updated to: ${this.endpoint}`)
   }
 
   private listen() {
@@ -77,20 +82,23 @@ export class StatusController {
         clearTimeout(this.idleTimeout)
         await this.sendActivity()
       } else if (config.get(CONFIG_KEYS.Status.Idle.Check)) {
-        this.idleTimeout = setTimeout(async () => {
-          if (!config.get(CONFIG_KEYS.Status.Idle.Check)) return
+        this.idleTimeout = setTimeout(
+          async () => {
+            if (!config.get(CONFIG_KEYS.Status.Idle.Check)) return
 
-          if (config.get(CONFIG_KEYS.Status.Idle.DisconnectOnIdle)) {
-            await this.disable()
-            if (config.get(CONFIG_KEYS.Status.Idle.ResetElapsedTime)) this.state.startTimestamp = undefined
-            return
-          }
+            if (config.get(CONFIG_KEYS.Status.Idle.DisconnectOnIdle)) {
+              await this.disable()
+              if (config.get(CONFIG_KEYS.Status.Idle.ResetElapsedTime)) this.state.startTimestamp = undefined
+              return
+            }
 
-          if (!this.enabled) return
+            if (!this.enabled) return
 
-          this.activityThrottle.reset()
-          await this.sendActivity(false, true)
-        }, config.get(CONFIG_KEYS.Status.Idle.Timeout)! * 1000)
+            this.activityThrottle.reset()
+            await this.sendActivity(false, true)
+          },
+          config.get(CONFIG_KEYS.Status.Idle.Timeout)! * 1000
+        )
       }
     }
   }
@@ -101,9 +109,26 @@ export class StatusController {
     this.state.instance = true
     if (!this.state || Object.keys(this.state).length === 0 || !this.canSendActivity) return
 
+    const playerSecret = getConfig().get(CONFIG_KEYS.App.PlayerSecret) || "defaultSecret"
+
     try {
-      const data = JSON.stringify(this.state)
-      console.log("Sending activity data:", data)
+      const query = `
+      mutation UpdateStatus($playerSecret: String, $status: JSON) {
+        updateStatus(input: { playerSecret: $playerSecret, status: $status }) {
+          player {
+            nodeId
+          }
+        }
+      }
+    `
+      const variables = {
+        playerSecret,
+        status: this.state
+      }
+
+      const data = JSON.stringify({ query, variables })
+
+      console.log("Sending activity data:", JSON.stringify(data))
 
       const options = {
         hostname: new URL(this.endpoint).hostname,
@@ -118,7 +143,7 @@ export class StatusController {
 
       console.log("Request options:", options)
 
-      const req = http.request(options, (res) => {
+      const req = https.request(options, (res) => {
         let responseData = ""
 
         res.on("data", (chunk) => {
@@ -171,7 +196,7 @@ export class StatusController {
 
       console.log("Sending disable data:", data)
 
-      const req = http.request(options, (res) => {
+      const req = https.request(options, (res) => {
         if (res.statusCode !== 200) {
           console.error(`Failed to clear activity: ${res.statusCode} ${res.statusMessage}`)
           throw new Error(`Failed to clear activity: ${res.statusCode} ${res.statusMessage}`)
