@@ -32,9 +32,8 @@ export class StatusController {
     editor.statusBarItem.command = undefined
 
     this.listen()
-    editor.statusBarItem.text = "$(globe) Connected to Status Service"
-    editor.statusBarItem.tooltip = "Click to disconnect from Status Service"
-    editor.statusBarItem.command = "vshive.disconnect"
+    editor.statusBarItem.text = "$(globe) Connected to Hive"
+    editor.statusBarItem.command = undefined
     editor.statusBarItem.show()
   }
 

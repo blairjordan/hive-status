@@ -1,11 +1,11 @@
 {
   "name": "hive-status",
   "displayName": "Hive Status",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A customizable status extension for a virtual office environment",
   "main": "dist/extension.js",
   "repository": "github:blairjordan/hive-status",
-  "publisher": "blairjordan",
+  "publisher": "pegleg",
   "license": "MIT",
   "private": true,
   "icon": "assets/icon.png",
