@@ -21,7 +21,7 @@ export const resolveLangName = (document: TextDocument): string => {
   const config = getConfig()
 
   const ADDITIONAL_FILE_MAPPING = Object.fromEntries(
-    Object.entries(config.get(CONFIG_KEYS.Behaviour.AdditionalFileMapping)!).map(([key, value]) => [
+    Object.entries(config.get(CONFIG_KEYS.Behaviour.AdditionalFileMapping) || {}).map(([key, value]) => [
       key,
       { image: value }
     ])

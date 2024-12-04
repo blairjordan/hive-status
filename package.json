@@ -1,22 +1,22 @@
 {
-  "name": "vshive",
-  "displayName": "Virtual Office Status",
+  "name": "hive-status",
+  "displayName": "Hive Status",
   "version": "1.0.0",
   "description": "A customizable status extension for a virtual office environment",
   "main": "dist/extension.js",
-  "repository": "github:blairjordan/vshive",
+  "repository": "github:blairjordan/hive-status",
   "publisher": "blairjordan",
   "license": "MIT",
   "private": true,
   "icon": "assets/icon.png",
   "bugs": {
-    "url": "https://github.com/blairjordan/vshive/issues"
+    "url": "https://github.com/blairjordan/hive-status/issues"
   },
-  "homepage": "https://github.com/blairjordan/vshive#readme",
+  "homepage": "https://github.com/blairjordan/hive-status#readme",
   "keywords": [
     "status",
     "virtual office",
-    "vshive"
+    "hive-status"
   ],
   "categories": [
     "Visualization",
@@ -54,41 +54,41 @@
   "contributes": {
     "commands": [
       {
-        "command": "vshive.enable",
-        "title": "Enable Virtual Office Status",
-        "category": "VSHive"
+        "command": "hive-status.enable",
+        "title": "Enable Hive Status",
+        "category": "Hive Status"
       },
       {
-        "command": "vshive.disable",
-        "title": "Disable Virtual Office Status",
-        "category": "VSHive"
+        "command": "hive-status.disable",
+        "title": "Disable Hive Status",
+        "category": "Hive Status"
       },
       {
-        "command": "vshive.workspace.enable",
-        "title": "Enable Virtual Office Status in the current workspace",
-        "category": "VSHive"
+        "command": "hive-status.workspace.enable",
+        "title": "Enable Hive Status in the current workspace",
+        "category": "Hive Status"
       },
       {
-        "command": "vshive.workspace.disable",
-        "title": "Disable Virtual Office Status in the current workspace",
-        "category": "VSHive"
+        "command": "hive-status.workspace.disable",
+        "title": "Disable Hive Status in the current workspace",
+        "category": "Hive Status"
       },
       {
-        "command": "vshive.enablePrivacyMode",
+        "command": "hive-status.enablePrivacyMode",
         "title": "Enable Privacy Mode",
-        "category": "VSHive"
+        "category": "Hive Status"
       },
       {
-        "command": "vshive.disablePrivacyMode",
+        "command": "hive-status.disablePrivacyMode",
         "title": "Disable Privacy Mode",
-        "category": "VSHive"
+        "category": "Hive Status"
       }
     ],
     "configuration": [
       {
-        "title": "VSHive",
+        "title": "Hive Status",
         "properties": {
-          "vshive.app.name": {
+          "hive-status.app.name": {
             "type": "string",
             "enum": [
               "Code",
@@ -97,44 +97,44 @@
               "Custom"
             ],
             "default": "Code",
-            "description": "Choose the name you want the application to use.\nChoosing \"Custom\" will make it so it use the \"rpc.id\" as application id",
+            "description": "Choose the name you want the application to use.\nChoosing \"Custom\" will make it so it uses the \"rpc.id\" as application id",
             "order": 2
           },
-          "vshive.app.id": {
+          "hive-status.app.id": {
             "type": "string",
             "default": "your_default_app_id",
             "description": "Application id that will be used when `appName` is \"Custom\" or when `appName` is invalid",
             "order": 3
           },
-          "vshive.app.privacyMode.enable": {
+          "hive-status.app.privacyMode.enable": {
             "type": "boolean",
             "default": false,
             "description": "Should we hide the repository, the file name and the workspace name?",
             "order": 4
           },
-          "vshive.app.playerSecret": {
+          "hive-status.app.playerSecret": {
             "type": "string",
             "default": "",
             "description": "The secret key for player status updates."
           },
-          "vshive.app.apiEndpoint": {
+          "hive-status.app.apiEndpoint": {
             "type": "string",
             "default": "https://api.devmode.digital/graphql",
             "description": "The endpoint for the API."
           },
-          "vshive.app.whitelistEnabled": {
+          "hive-status.app.whitelistEnabled": {
             "type": "boolean",
             "default": false,
             "description": "Is the whitelist enabled?",
             "order": 5
           },
-          "vshive.app.whitelistIsBlacklist": {
+          "hive-status.app.whitelistIsBlacklist": {
             "type": "boolean",
             "default": false,
             "description": "Switches the whitelist to a blacklist.",
             "order": 6
           },
-          "vshive.app.whitelist": {
+          "hive-status.app.whitelist": {
             "type": "array",
             "default": [],
             "uniqueItems": true,
@@ -150,27 +150,27 @@
         "title": "Status",
         "type": "object",
         "properties": {
-          "vshive.status.showElapsedTime": {
+          "hive-status.status.showElapsedTime": {
             "type": "boolean",
             "default": true,
             "description": "Should elapsed time be shown?"
           },
-          "vshive.status.resetElapsedTimePerFile": {
+          "hive-status.status.resetElapsedTimePerFile": {
             "type": "boolean",
             "default": false,
             "description": "Should we reset the elapsed time after switching file?"
           },
-          "vshive.status.problems.enabled": {
+          "hive-status.status.problems.enabled": {
             "type": "boolean",
             "default": true,
             "description": "Should we count the problems?"
           },
-          "vshive.status.problems.text": {
+          "hive-status.status.problems.text": {
             "type": "string",
             "default": "- {problems_count} problems found",
             "description": "This text will be shown when there is a problem."
           },
-          "vshive.status.problems.countedSeverities": {
+          "hive-status.status.problems.countedSeverities": {
             "type": "array",
             "uniqueItems": true,
             "items": {
@@ -188,27 +188,27 @@
             ],
             "description": "List of problem levels to count for `problems_count`."
           },
-          "vshive.status.idle.enabled": {
+          "hive-status.status.idle.enabled": {
             "type": "boolean",
             "default": true,
             "description": "Should we enable the idle status?"
           },
-          "vshive.status.idle.check": {
+          "hive-status.status.idle.check": {
             "type": "boolean",
             "default": true,
             "description": "Should we check when you are idling?"
           },
-          "vshive.status.idle.disconnectOnIdle": {
+          "hive-status.status.idle.disconnectOnIdle": {
             "type": "boolean",
             "default": false,
             "description": "Should going idle disconnect you from the service?"
           },
-          "vshive.status.idle.resetElapsedTime": {
+          "hive-status.status.idle.resetElapsedTime": {
             "type": "boolean",
             "default": false,
             "description": "Should going idle reset the elapsed time?"
           },
-          "vshive.status.idle.timeout": {
+          "hive-status.status.idle.timeout": {
             "type": "number",
             "default": 300,
             "description": "Time in seconds before the user is considered idle."
@@ -219,7 +219,7 @@
         "title": "Ignore",
         "type": "object",
         "properties": {
-          "vshive.ignore.workspaces": {
+          "hive-status.ignore.workspaces": {
             "type": "array",
             "uniqueItems": true,
             "items": {
@@ -228,14 +228,14 @@
             "default": [],
             "description": "A list of workspace (name / path) to ignore."
           },
-          "vshive.ignore.workspacesText": {
+          "hive-status.ignore.workspacesText": {
             "type": [
               "string",
               "object"
             ],
             "description": "The text / object to show in the status when current workspace is ignored, when using the object, key is workspace name and value is the text."
           },
-          "vshive.ignore.repositories": {
+          "hive-status.ignore.repositories": {
             "type": "array",
             "uniqueItems": true,
             "items": {
@@ -244,7 +244,7 @@
             "default": [],
             "description": "A list of repository names to ignore."
           },
-          "vshive.ignore.organizations": {
+          "hive-status.ignore.organizations": {
             "type": "array",
             "uniqueItems": true,
             "items": {
@@ -253,7 +253,7 @@
             "default": [],
             "description": "A list of git organizations to ignore."
           },
-          "vshive.ignore.gitHosts": {
+          "hive-status.ignore.gitHosts": {
             "type": "array",
             "uniqueItems": true,
             "items": {
@@ -268,42 +268,42 @@
         "title": "Details",
         "type": "object",
         "properties": {
-          "vshive.status.details.enabled": {
+          "hive-status.status.details.enabled": {
             "type": "boolean",
             "default": true,
             "description": "Should details be shown?"
           },
-          "vshive.status.details.idle.enabled": {
+          "hive-status.status.details.idle.enabled": {
             "type": "boolean",
             "default": true,
             "description": "Should details be shown when idling?"
           },
-          "vshive.status.details.text.idle": {
+          "hive-status.status.details.text.idle": {
             "type": "string",
             "default": "Idling",
             "description": "The text to show when idling."
           },
-          "vshive.status.details.text.editing": {
+          "hive-status.status.details.text.editing": {
             "type": "string",
             "default": "In {workspace} {problems}",
             "description": "The text to show when editing a file."
           },
-          "vshive.status.details.text.debugging": {
+          "hive-status.status.details.text.debugging": {
             "type": "string",
             "default": "Debugging {file_name}{file_extension}",
             "description": "The text to show when debugging."
           },
-          "vshive.status.details.text.viewing": {
+          "hive-status.status.details.text.viewing": {
             "type": "string",
             "default": "In {workspace} {problems}",
             "description": "The text to show when viewing a file."
           },
-          "vshive.status.details.text.notInFile": {
+          "hive-status.status.details.text.notInFile": {
             "type": "string",
             "default": "Not in a file!",
             "description": "The text to show when you are not in a file."
           },
-          "vshive.status.details.text.noWorkSpaceText": {
+          "hive-status.status.details.text.noWorkSpaceText": {
             "type": "string",
             "default": "no workspace",
             "description": "The text to show when you are not in a workspace and there is no workspace text."
@@ -314,47 +314,47 @@
         "title": "State",
         "type": "object",
         "properties": {
-          "vshive.status.state.enabled": {
+          "hive-status.status.state.enabled": {
             "type": "boolean",
             "default": true,
             "description": "Should state be shown?"
           },
-          "vshive.status.state.debugging.enabled": {
+          "hive-status.status.state.debugging.enabled": {
             "type": "boolean",
             "default": true,
             "description": "Should state be shown when debugging? If disabled, it will be shown when editing/viewing a file."
           },
-          "vshive.status.state.idle.enabled": {
+          "hive-status.status.state.idle.enabled": {
             "type": "boolean",
             "default": true,
             "description": "Should state be shown when idling?"
           },
-          "vshive.status.state.text.idle": {
+          "hive-status.status.state.text.idle": {
             "type": "string",
             "default": "",
             "description": "The text to show when idling."
           },
-          "vshive.status.state.text.editing": {
+          "hive-status.status.state.text.editing": {
             "type": "string",
             "default": "Working on {file_name}{file_extension}:{current_line}:{current_column}",
             "description": "The text to show when editing a file."
           },
-          "vshive.status.state.text.debugging": {
+          "hive-status.status.state.text.debugging": {
             "type": "string",
             "default": "Debugging: {workspace}",
             "description": "The text to show when debugging."
           },
-          "vshive.status.state.text.viewing": {
+          "hive-status.status.state.text.viewing": {
             "type": "string",
             "default": "Viewing {file_name}{file_extension}",
             "description": "The text to show when viewing a file."
           },
-          "vshive.status.state.text.notInFile": {
+          "hive-status.status.state.text.notInFile": {
             "type": "string",
             "default": "",
             "description": "The text to show when you are not in a file."
           },
-          "vshive.status.state.text.noWorkspaceFound": {
+          "hive-status.status.state.text.noWorkspaceFound": {
             "type": "string",
             "default": "No workspace.",
             "description": "The text to show when no workspace is found."
@@ -365,17 +365,17 @@
         "title": "Misc",
         "type": "object",
         "properties": {
-          "vshive.file.size.round": {
+          "hive-status.file.size.round": {
             "type": "number",
             "default": 2,
             "description": "The number of decimal places to round the file size to."
           },
-          "vshive.file.size.spacer": {
+          "hive-status.file.size.spacer": {
             "type": "string",
             "default": " ",
             "description": "Spacer between the number and the unit."
           },
-          "vshive.behaviour.additionalFileMapping": {
+          "hive-status.behaviour.additionalFileMapping": {
             "type": "object",
             "default": {},
             "additionalProperties": {
@@ -383,17 +383,17 @@
             },
             "description": "Additional regex to check for language, key is regex and value is the language."
           },
-          "vshive.behaviour.suppressNotifications": {
+          "hive-status.behaviour.suppressNotifications": {
             "type": "boolean",
             "default": false,
             "description": "Suppresses all notifications from the extension."
           },
-          "vshive.behaviour.prioritizeLanguagesOverExtensions": {
+          "hive-status.behaviour.prioritizeLanguagesOverExtensions": {
             "type": "boolean",
             "default": false,
             "description": "Prioritize language defined by editor over file extension when determining the language for the file."
           },
-          "vshive.behaviour.statusBarAlignment": {
+          "hive-status.behaviour.statusBarAlignment": {
             "type": "string",
             "enum": [
               "Right",
@@ -402,12 +402,12 @@
             "default": "Left",
             "description": "Changing the alignment of the status bar."
           },
-          "vshive.file.size.humanReadable": {
+          "hive-status.file.size.humanReadable": {
             "type": "boolean",
             "default": true,
             "description": "If true, the file size will be displayed in a human readable format (e.g. 1.2 MB). If false, the file size will be displayed in bytes."
           },
-          "vshive.file.size.standard": {
+          "hive-status.file.size.standard": {
             "type": "string",
             "enum": [
               "iec",
@@ -422,7 +422,7 @@
         "title": "Advanced",
         "type": "object",
         "properties": {
-          "vshive.behaviour.debug": {
+          "hive-status.behaviour.debug": {
             "type": "boolean",
             "default": false,
             "description": "Enable debug mode"

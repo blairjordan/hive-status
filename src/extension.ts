@@ -165,7 +165,7 @@ export const registerCommands = (ctx: ExtensionContext) => {
 export async function activate(ctx: ExtensionContext) {
   console.log("Virtual Office Status for VS Code activated.")
 
-  const endpoint = (getConfig().get(CONFIG_KEYS.App.ApiEndpoint) as string) || "https://api.devmode.digital"
+  const endpoint = (getConfig().get(CONFIG_KEYS.App.ApiEndpoint) as string) || "https://api.devmode.digital/graphql"
   const debugMode = getConfig().get(CONFIG_KEYS.Behaviour.Debug)
   controller = new StatusController(endpoint, debugMode)
 

@@ -220,6 +220,8 @@ export const activity = async (previous: any = {}, isViewing = false, isIdling =
 }
 
 export const replaceAppInfo = (text: string): string => {
+  if (!text) return ""
+
   text = text.slice()
   const { appName } = env
 

@@ -179,41 +179,6 @@ export class StatusController {
     this.cleanUp()
     if (this.idleTimeout) clearTimeout(this.idleTimeout)
     if (this.iconTimeout) clearTimeout(this.iconTimeout)
-
-    try {
-      const data = JSON.stringify({ clearActivity: true })
-
-      const options = {
-        hostname: new URL(this.endpoint).hostname,
-        port: new URL(this.endpoint).port || 443,
-        path: new URL(this.endpoint).pathname,
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "Content-Length": data.length
-        }
-      }
-
-      console.log("Sending disable data:", data)
-
-      const req = https.request(options, (res) => {
-        if (res.statusCode !== 200) {
-          console.error(`Failed to clear activity: ${res.statusCode} ${res.statusMessage}`)
-          throw new Error(`Failed to clear activity: ${res.statusCode} ${res.statusMessage}`)
-        }
-      })
-
-      req.on("error", (error) => {
-        console.error("Request error:", error)
-        logError("Error clearing activity on status service:", error)
-      })
-
-      req.write(data)
-      req.end()
-    } catch (error) {
-      console.error("Error in disable:", error)
-      logError("Error clearing activity on status service:", error)
-    }
   }
 
   async enable() {
