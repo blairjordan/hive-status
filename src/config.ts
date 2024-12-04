@@ -104,4 +104,4 @@ export type WorkspaceConfigurationWithType<Configuration extends Record<string, 
 
 export type ExtensionConfiguration = WorkspaceConfigurationWithType<ExtensionConfigurationType>
 
-export const getConfig = () => workspace.getConfiguration("vshive") as ExtensionConfiguration
+export const getConfig = () => workspace.getConfiguration("hive-status") as ExtensionConfiguration

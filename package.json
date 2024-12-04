@@ -1,7 +1,7 @@
 {
   "name": "hive-status",
   "displayName": "Hive Status",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "A customizable status extension for a virtual office environment",
   "main": "dist/extension.js",
   "repository": "github:blairjordan/hive-status",

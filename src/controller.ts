@@ -110,6 +110,10 @@ export class StatusController {
 
     const playerSecret = getConfig().get(CONFIG_KEYS.App.PlayerSecret) || "defaultSecret"
 
+    if (playerSecret === "defaultSecret") {
+      console.warn("Warning: Using defaultSecret because no playerSecret was found in configuration.")
+    }
+
     try {
       const query = `
       mutation UpdateStatus($playerSecret: String, $status: JSON) {
