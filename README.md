@@ -25,7 +25,7 @@ This extension can send details such as:
 ### Installation
 
 1. Install the Hive Status extension into VS Code.
-2. In [Hive](hive.devmode.digital), locate your API Key by going to your profile (⚙️ icon) and copying the "API Key".
+2. In [Hive](https://hive.devmode.digital), locate your API Key by going to your profile (⚙️ icon) and copying the "API Key".
 3. In VS Code, open the Command Palette (`Ctrl+Shift+P` or `Cmd+Shift+P` on macOS) and run the command `Hive Status: Set Player Secret`.
 4. After installation, the extension will attempt to connect to the configured endpoint and show a status message in the VS Code status bar.
 

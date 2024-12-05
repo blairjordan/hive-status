@@ -1,8 +1,8 @@
 {
   "name": "hive-status",
   "displayName": "Hive Status",
-  "version": "1.0.2",
-  "description": "A customizable status extension for a virtual office environment",
+  "version": "1.0.3",
+  "description": "A customizable extension to post your status to Hive",
   "main": "dist/extension.js",
   "repository": "github:blairjordan/hive-status",
   "publisher": "pegleg",
