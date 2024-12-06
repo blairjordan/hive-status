@@ -126,7 +126,10 @@ export class StatusController {
     `
       const variables = {
         playerSecret,
-        status: this.state
+        status: {
+          ...this.state,
+          timestamp: Date.now()
+        }
       }
 
       const data = JSON.stringify({ query, variables })
