@@ -1,7 +1,7 @@
 {
   "name": "hive-status",
   "displayName": "Hive Status",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "A customizable extension to post your status to Hive",
   "main": "dist/extension.js",
   "repository": "github:blairjordan/hive-status",

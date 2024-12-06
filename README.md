@@ -1,6 +1,6 @@
 # Hive Status Extension
 
-> **Note:** This extension is currently built for [hive.devmode.digital](hive.devmode.digital).
+> **Note:** This extension is currently built for [Hive](https://hive.devmode.digital/).
 > If you'd like to expand its compatibility, please consider opening a PR to make the POST request format more configurable.
 
 The Hive Status Extension helps you reflect your coding activity and workspace details into a remote service (referred to as the "Status Service"). By doing so, you can showcase what you're working on, how long you've been working, and other context about your current coding session.
