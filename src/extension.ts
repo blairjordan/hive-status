@@ -73,8 +73,8 @@ export const registerCommands = (ctx: ExtensionContext) => {
     await controller.sendActivity()
   }
 
-  const enableCommand = commands.registerCommand("vshive.enable", async () => {
-    console.log("Command: vshive.enable")
+  const enableCommand = commands.registerCommand("hive-status.enable", async () => {
+    console.log("Command: hive-status.enable")
     await disable(false)
     await enable(false)
 
@@ -85,8 +85,8 @@ export const registerCommands = (ctx: ExtensionContext) => {
     }
   })
 
-  const disableCommand = commands.registerCommand("vshive.disable", async () => {
-    console.log("Command: vshive.disable")
+  const disableCommand = commands.registerCommand("hive-status.disable", async () => {
+    console.log("Command: hive-status.disable")
     console.log("Disabled Virtual Office Status")
 
     await disable(false)
@@ -96,8 +96,8 @@ export const registerCommands = (ctx: ExtensionContext) => {
     }
   })
 
-  const enableWorkspaceCommand = commands.registerCommand("vshive.workspace.enable", async () => {
-    console.log("Command: vshive.workspace.enable")
+  const enableWorkspaceCommand = commands.registerCommand("hive-status.workspace.enable", async () => {
+    console.log("Command: hive-status.workspace.enable")
     console.log("Enabled Virtual Office Status")
 
     await disable()
@@ -108,8 +108,8 @@ export const registerCommands = (ctx: ExtensionContext) => {
     }
   })
 
-  const disableWorkspaceCommand = commands.registerCommand("vshive.workspace.disable", async () => {
-    console.log("Command: vshive.workspace.disable")
+  const disableWorkspaceCommand = commands.registerCommand("hive-status.workspace.disable", async () => {
+    console.log("Command: hive-status.workspace.disable")
     console.log("Disabled Virtual Office Status")
 
     await disable()
@@ -119,8 +119,8 @@ export const registerCommands = (ctx: ExtensionContext) => {
     }
   })
 
-  const enablePrivacyModeCommand = commands.registerCommand("vshive.enablePrivacyMode", async () => {
-    console.log("Command: vshive.enablePrivacyMode")
+  const enablePrivacyModeCommand = commands.registerCommand("hive-status.enablePrivacyMode", async () => {
+    console.log("Command: hive-status.enablePrivacyMode")
     console.log("Enabled Privacy Mode")
 
     await togglePrivacyMode(true)
@@ -130,8 +130,8 @@ export const registerCommands = (ctx: ExtensionContext) => {
     }
   })
 
-  const disablePrivacyModeCommand = commands.registerCommand("vshive.disablePrivacyMode", async () => {
-    console.log("Command: vshive.disablePrivacyMode")
+  const disablePrivacyModeCommand = commands.registerCommand("hive-status.disablePrivacyMode", async () => {
+    console.log("Command: hive-status.disablePrivacyMode")
     console.log("Disabled Privacy Mode")
 
     await togglePrivacyMode(false)
@@ -141,7 +141,7 @@ export const registerCommands = (ctx: ExtensionContext) => {
     }
   })
 
-  const setPlayerSecretCommand = commands.registerCommand("vshive.setPlayerSecret", async () => {
+  const setPlayerSecretCommand = commands.registerCommand("hive-status.setPlayerSecret", async () => {
     const playerSecret = await window.showInputBox({ prompt: "Enter your player secret key" })
     if (playerSecret) {
       await getConfig().update(CONFIG_KEYS.App.PlayerSecret, playerSecret)

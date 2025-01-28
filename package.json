@@ -1,7 +1,7 @@
 {
   "name": "hive-status",
   "displayName": "Hive Status",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "A customizable extension to post your status to Hive",
   "main": "dist/extension.js",
   "repository": "github:blairjordan/hive-status",
@@ -81,6 +81,11 @@
       {
         "command": "hive-status.disablePrivacyMode",
         "title": "Disable Privacy Mode",
+        "category": "Hive Status"
+      },
+      {
+        "command": "hive-status.setPlayerSecret",
+        "title": "Set Player Secret",
         "category": "Hive Status"
       }
     ],
