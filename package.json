@@ -1,8 +1,8 @@
 {
   "name": "hive-status",
   "displayName": "Hive Status",
-  "version": "1.0.5",
-  "description": "A customizable extension to post your status to Hive",
+  "version": "1.0.6",
+  "description": "A customizable extension to post your status to Flurry",
   "main": "dist/extension.js",
   "repository": "github:blairjordan/hive-status",
   "publisher": "pegleg",
@@ -124,7 +124,7 @@
           },
           "hive-status.app.apiEndpoint": {
             "type": "string",
-            "default": "https://api.devmode.digital/graphql",
+            "default": "http://api.flurry.world/graphql",
             "description": "The endpoint for the API."
           },
           "hive-status.app.whitelistEnabled": {

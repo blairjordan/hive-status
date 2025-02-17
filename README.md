@@ -1,6 +1,6 @@
 # Hive Status Extension
 
-> **Note:** This extension is currently built for [Hive](https://hive.devmode.digital/).
+> **Note:** This extension is currently built for [Flurry](https://flurry.world/).
 > If you'd like to expand its compatibility, please consider opening a PR to make the POST request format more configurable.
 
 The Hive Status Extension helps you reflect your coding activity and workspace details into a remote service (referred to as the "Status Service"). By doing so, you can showcase what you're working on, how long you've been working, and other context about your current coding session.
@@ -25,7 +25,7 @@ This extension can send details such as:
 ### Installation
 
 1. Install the Hive Status extension into VS Code.
-2. In [Hive](https://hive.devmode.digital), locate your API Key by going to your profile (⚙️ icon) and copying the "API Key".
+2. In [Flurry](https://flurry.world), locate your API Key by going to your profile (⚙️ icon) and copying the "API Key".
 3. In VS Code, open the Command Palette (`Ctrl+Shift+P` or `Cmd+Shift+P` on macOS) and run the command `Hive Status: Set Player Secret`.
 4. After installation, the extension will attempt to connect to the configured endpoint and show a status message in the VS Code status bar.
 
@@ -52,9 +52,9 @@ You can configure these settings in VS Code. Go to **Settings** (File > Preferen
 
 ### Required Settings
 
-- **`hive-status.app.apiEndpoint`** (Default: `https://api.devmode.digital/graphql`)  
-  The remote GraphQL API endpoint that receives your status updates.  
-  Example: `https://your-service.com/graphql`
+- **`hive-status.app.apiEndpoint`** (Default: `https://api.flurry.world/graphql`)  
+  The remote GraphQL API endpoint that receives your status updates.
+  You could also use this to set a custom endpoint, e.g., `https://your-service.com/graphql`
 
 - **`hive-status.app.playerSecret`** (Default: `""`)  
   A secret key or token provided by your status service. This authenticates your status updates so that only you can modify your status.  
